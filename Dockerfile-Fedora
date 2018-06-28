@@ -1,0 +1,5 @@
+FROM fedora
+  
+RUN dnf update -y && dnf install libstdc++ -y && dnf clean all && pip3 install --upgrade pip && python3 --version
+  
+RUN pip3 install cython tornado websocket-client pytest numpy pandas scipy bokeh pillow
