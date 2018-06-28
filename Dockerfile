@@ -4,9 +4,6 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-#FROM alpine
-
-
 FROM scratch
 ADD alpine3.8.tar.gz /
 CMD ["/bin/sh"]
@@ -141,7 +138,7 @@ RUN set -ex; \
 	\) -exec rm -rf '{}' +; \
     rm -f get-pip.py
 
-         apk add --no-cache --virtual .build-deps  \
+RUN   apk add --no-cache --virtual .build-deps  \
                 gfortran \
                 build-base \
                 openblas-dev \
@@ -185,7 +182,7 @@ RUN set -ex; \
         && ln -s /usr/include/locale.h /usr/include/xlocale.h \
         && pip install cython tornado websocket-client pytest numpy pandas scipy bokeh pillow \
         && apk del .build-deps \
-    && apk add --no-cache  libstdc++ openblas zlib jpeg openjpeg tiff tk tcl musl libxml2 libxslt xz zlib libstdc++ openblas \
-    && pip list
+        && apk add --no-cache  libstdc++ openblas zlib jpeg openjpeg tiff tk tcl musl libxml2 libxslt xz zlib libstdc++ openblas \
+        && pip list
     
 CMD ["python3"]
