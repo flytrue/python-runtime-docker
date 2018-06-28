@@ -141,33 +141,51 @@ RUN set -ex; \
 	\) -exec rm -rf '{}' +; \
     rm -f get-pip.py
 
-RUN     apk add --no-cache --virtual .build-deps  \
-        bzip2-dev \
-        coreutils \
-        dpkg-dev dpkg \
-        expat-dev \
-        gcc \
-        gdbm-dev \
-        libc-dev \
-        libffi-dev \
-        libnsl-dev \
-        libressl \
-        libressl-dev \
-        libtirpc-dev \
-        linux-headers \
-        lapack-dev \
-        make \
-        ncurses-dev \
-        pax-utils \
-        readline-dev \
-        sqlite-dev \
-        tcl-dev \
-        tk \
-        tk-dev \
-        xz-dev \
-        zlib-dev \
-        # add build deps before removing fetch deps in case there's overlap
-        && pip3 install cython tornado websocket-client pytest numpy pandas scipy pillow bokeh \
+         apk add --no-cache --virtual .build-deps  \
+                gfortran \
+                build-base \
+                openblas-dev \
+                bzip2-dev \
+                coreutils \
+                dpkg-dev dpkg \
+                expat-dev \
+                gcc \
+                gdbm-dev \
+                libc-dev \
+                libffi-dev \
+                libnsl-dev \
+                libressl \
+                libressl-dev \
+                libtirpc-dev \
+                linux-headers \
+                make \
+                ncurses-dev \
+                pax-utils \
+                readline-dev \
+                sqlite-dev \
+                tcl-dev \
+                tk \
+                tk-dev \
+                xz-dev \
+                zlib-dev \
+                libxml2-dev \
+                libxslt-dev \
+                musl-dev \
+                libgcc \
+                curl \
+                jpeg-dev \
+                zlib-dev \
+                freetype-dev \
+                lcms2-dev \
+                openjpeg-dev \
+                tiff-dev \
+                tk-dev \
+                tcl-dev \
+# add build deps before removing fetch deps in case there's overlap
+        && ln -s /usr/include/locale.h /usr/include/xlocale.h \
+        && pip install cython tornado websocket-client pytest numpy pandas scipy bokeh pillow \
         && apk del .build-deps \
-
+    && apk add --no-cache  libstdc++ openblas zlib jpeg openjpeg tiff tk tcl musl libxml2 libxslt xz zlib libstdc++ openblas \
+    && pip list
+    
 CMD ["python3"]
